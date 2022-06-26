@@ -1,4 +1,4 @@
-##Simple unity remake of the Ants demo from Greenfoot Java package.
+**Simple unity remake of the Ants demo from Greenfoot Java package.**
 
 Created as an educational example of how to create a roughly similar concept in unity for
 my children.
