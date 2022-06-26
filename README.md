@@ -23,3 +23,5 @@ If you know the Greenfoot Ants demo you will recognise that the original sprites
 for the red team.
 
 Check out the prefabs directly (models folder) to see which settings can be adjusted per prefab.
+
+Oh - and I added a beetle.  No reason.
