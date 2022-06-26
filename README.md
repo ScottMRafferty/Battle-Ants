@@ -1,4 +1,4 @@
-Simple unity remake of the Ants demo from Greenfoot Java package.
+##Simple unity remake of the Ants demo from Greenfoot Java package.
 
 Created as an educational example of how to create a roughly similar concept in unity for
 my children.
@@ -25,3 +25,7 @@ for the red team.
 Check out the prefabs directly (models folder) to see which settings can be adjusted per prefab.
 
 Oh - and I added a beetle.  No reason.
+
+As this is a Unity project in GIT I think you'll just need to create a new project and just copy
+everything under Assets into the Assets folder in your new project.  Unity may rebuild the
+whole project and Library files from everything in this repo but I'm not convinced.
