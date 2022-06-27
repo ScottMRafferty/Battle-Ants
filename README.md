@@ -13,7 +13,7 @@ and force) rather than actually setting the position.
 The two movement scripts may be of generic use elsewhere.
 
 A slider has been added to increase/decrease simulation speed but as CreatureEnhanced movement
-does not rely on x,y placement setting the turn speed to some values may cause the ant to do
+does not rely on x,y placement setting the turn speed to some values may cause the (enhanced!) ant to do
 some weird stuff.
 
 The sprites are mostly scaled so that a larger resolution will just result in a larger play area
