@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decal: {fileID: 1058845529958369606, guid: 59784d952ad7f4f378a993e06f0873ab, type: 3}
-  intervalDecal: 6
+  intervalDecal: 20
 --- !u!70 &3379035820149434756
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 10
-  maxSpeed: 30
-  turnSpeed: 0.01
+  maxSpeed: 20
+  turnSpeed: 0.02
   variability: 0.1
   updateIntervalModifier: 4

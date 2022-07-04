@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 0
-  maxSpeed: 2
-  turnSpeed: 0.1
+  maxSpeed: 3
+  turnSpeed: 0.05
   variability: 0.8
   updateIntervalModifier: 1
 --- !u!70 &3532203952346720162
@@ -181,6 +181,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0029287352, y: 0.008995533}
-  m_Size: {x: 0.12015639, y: 0.022251025}
+  m_Offset: {x: 0.002228629, y: 0.00876221}
+  m_Size: {x: 0.13182536, y: 0.031119538}
   m_Direction: 1

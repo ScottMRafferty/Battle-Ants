@@ -133,8 +133,11 @@ public class Ant : MonoBehaviour
         GameObject colGameObject = collision.gameObject;
 
         if (colGameObject != null) {
+            if ((colGameObject.name == "Ant(Clone)" || colGameObject.name == "AntOriginal(Clone)")) {
+                // Handle this scenario in OnCollisionStay2D
+                OnCollisionStay2D(collision);
 
-            if (colGameObject.name == "Nest(Clone)") {
+            } else if (colGameObject.name == "Nest(Clone)") {
 
                 Nest nestInProximity  = colGameObject.GetComponent<Nest>();
                 if (colGameObject.GetInstanceID() == nest.gameObject.GetInstanceID()) {
@@ -162,10 +165,7 @@ public class Ant : MonoBehaviour
                 this.GetComponent<SpriteRenderer>().sprite = antWithFood;
                 creature.SetTarget(nest.gameObject,false);
 
-            } else if (colGameObject.name == "Ant(Clone)") {
-                // Handle this scenario in OnCollisionStay2D
-                OnCollisionStay2D(collision);
-            } 
+            }
         }
     }
 
@@ -173,14 +173,13 @@ public class Ant : MonoBehaviour
 
         GameObject colGameObject = collision.gameObject;
 
-        if (colGameObject != null && colGameObject.name == "Ant(Clone)") {
+        if (colGameObject != null && (colGameObject.name == "Ant(Clone)" || colGameObject.name == "AntOriginal(Clone)")) {
             // If this ant is from another nest then drop a pheromone
             Ant someAnt = colGameObject.GetComponent<Ant>();
             if (someAnt.nest.gameObject.GetInstanceID() != nest.gameObject.GetInstanceID()) {
                 if (enemyAnt == null)
                     HandlePheromoneDrop(nest.color);
                 enemyAnt = someAnt;
-                someAnt.enemyAnt = this;
             }
         }
 
