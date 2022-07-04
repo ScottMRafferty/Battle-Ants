@@ -1,4 +1,4 @@
-Simple unity remake of the Ants demo from Greenfoot Java package.
+**Simple unity remake of the Ants demo from Greenfoot Java package.**
 
 Created as an educational example of how to create a roughly similar concept in unity for
 my children.
@@ -13,7 +13,7 @@ and force) rather than actually setting the position.
 The two movement scripts may be of generic use elsewhere.
 
 A slider has been added to increase/decrease simulation speed but as CreatureEnhanced movement
-does not rely on x,y placement setting the turn speed to some values may cause the ant to do
+does not rely on x,y placement setting the turn speed to some values may cause the (enhanced!) ant to do
 some weird stuff.
 
 The sprites are mostly scaled so that a larger resolution will just result in a larger play area
@@ -25,3 +25,7 @@ for the red team.
 Check out the prefabs directly (models folder) to see which settings can be adjusted per prefab.
 
 Oh - and I added a beetle.  No reason.
+
+As this is a Unity project in GIT I think you'll just need to create a new project and just copy
+everything under Assets into the Assets folder in your new project.  Unity may rebuild the
+whole project and Library files from everything in this repo but I'm not convinced.
