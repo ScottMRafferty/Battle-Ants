@@ -10,8 +10,10 @@ public class Food : MonoBehaviour
 
     void Start() {
         transform.rotation = new Quaternion(0,0,0,Random.Range(0,1));
-        float r = Random.Range(0.03f, 0.10f);
-        transform.localScale = new Vector2(r,r);
+        if (qty > 30) {
+            float r = Random.Range(0.05f, 0.10f);
+            transform.localScale = new Vector2(r,r);
+        }
     }
 
     public int takeFood(int attemptingToTake) {
@@ -25,11 +27,17 @@ public class Food : MonoBehaviour
         qty = amount;
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        if (qty < 1)
+        if (qty < 1) 
             Destroy(gameObject);
+        else if (qty < 5)
+            transform.localScale = new Vector2(0.003f,0.003f);
+        else if (qty < 10)
+            transform.localScale = new Vector2(0.03f,0.03f);
+        else if (qty < 20)
+            transform.localScale = new Vector2(0.04f,0.04f);
+        
     }
 
     public int TakeFood(int requestedAmount) {

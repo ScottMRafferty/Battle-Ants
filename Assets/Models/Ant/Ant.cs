@@ -53,6 +53,7 @@ public class Ant : MonoBehaviour
     public Nest nest;
     private CreatureWrapper creature;
     private float second = 1.0f;
+    private GameObject leaf;
 
     void Start()
     {
@@ -68,6 +69,7 @@ public class Ant : MonoBehaviour
             status.UpdateMetric(STATUS_TYPES.HEALTH, nest.color, health);
         });
         gameObject.SetActive(false);
+        leaf = transform.GetChild(0).gameObject;
 
         // No re-scaling of the ant required as they are a child of nest (which is scaled appropriately)
 
@@ -115,16 +117,20 @@ public class Ant : MonoBehaviour
                 SearchForFood();
             }
 
-            if (health < 1)
+            if (health < 1) {
+                if (food > 0) {
+                    GameObject foodDrop = Instantiate(World.instance.food,transform.position, Quaternion.identity, nest.gameObject.transform.parent.transform);
+                    foodDrop.GetComponent<Food>().qty = food;
+                }
                 nest.DestroyAnt(gameObject);
+            }
+
+            if (leaf != null)
+                leaf.SetActive(food > 0);
 
             status.gameObject.SetActive(World.instance.showAntHealth);
            
         }
-
-    }
-
-    void HandleAntCollision() {
 
     }
 
@@ -164,7 +170,6 @@ public class Ant : MonoBehaviour
                 food += colGameObject.GetComponent<Food>().TakeFood(carryingCapacity-food);
                 this.GetComponent<SpriteRenderer>().sprite = antWithFood;
                 creature.SetTarget(nest.gameObject,false);
-
             }
         }
     }

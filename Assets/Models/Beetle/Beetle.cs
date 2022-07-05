@@ -20,7 +20,7 @@ public class Beetle : MonoBehaviour
         elapsedTime += Time.deltaTime;
         if (elapsedTime >= World.instance.simulationSpeed * intervalDecal) {
             elapsedTime = 0;
-            Instantiate(decal,transform.position, Quaternion.identity);
+            Instantiate(decal,transform.position, Quaternion.identity,transform.parent.transform);
         }
     }
 

@@ -41,12 +41,8 @@ public class World : MonoBehaviour
         Color[] colors = new Color[3] {new Color(1f,0f,0f,1f),new Color(0f,.5f,0f,1f),new Color(0f,0f,1f,1f)};
 
         // Food
-        for (int x=0; x<foodQty; x+=2) {
-            Vector3 v = getRandomDelta(false);
+        for (int x=0; x<foodQty; x++) {
             Instantiate(food,Camera.main.ViewportToWorldPoint(getRandomDelta(false)), Quaternion.identity, transform);
-            v.x += Random.value;
-            v.y += Random.value;
-            Instantiate(food,Camera.main.ViewportToWorldPoint(v), Quaternion.identity, transform);
         }
 
         // Nests (teams)

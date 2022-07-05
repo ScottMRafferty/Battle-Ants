@@ -1298,7 +1298,7 @@ MonoBehaviour:
   food: {fileID: 1541227405305440279, guid: 9cf6c29e70a644e4ca0c075d54422528, type: 3}
   foodQty: 10
   nestQty: 2
-  simulationSpeed: 0.060000002
+  simulationSpeed: 0.04
   showAntHealth: 0
 --- !u!4 &910308452
 Transform:
