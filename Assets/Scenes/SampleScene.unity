@@ -733,7 +733,7 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 0
-  m_HDR: 0
+  m_HDR: 1
   m_AllowMSAA: 0
   m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
@@ -788,8 +788,8 @@ MonoBehaviour:
   m_LightType: 4
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
-  m_Intensity: 1.04
+  m_Color: {r: 0.8396226, g: 0.7713891, b: 0.6534799, a: 1}
+  m_Intensity: 0.75
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -1518,8 +1518,8 @@ MonoBehaviour:
   m_LightType: 2
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 0.4433962, g: 0.39323446, b: 0.27816838, a: 1}
-  m_Intensity: 1.75
+  m_Color: {r: 0.9150943, g: 0.2811862, b: 0.09927912, a: 1}
+  m_Intensity: 1.86
   m_LightVolumeIntensity: 0.28
   m_LightVolumeIntensityEnabled: 1
   m_ApplyToSortingLayers: 00000000

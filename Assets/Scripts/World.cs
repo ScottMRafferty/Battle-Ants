@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 // The available game types
 public enum STATUS_TYPES {
@@ -51,8 +53,27 @@ public class World : MonoBehaviour
             o.GetComponent<Nest>().color = colors[x];
             o.GetComponent<Nest>().greenfootAnts = (x < 1);
         }
-        
 
+        SetRenderScale(0.1f);
+        StartCoroutine(DoFadeIn());       
+
+    }
+
+    IEnumerator DoFadeIn()
+        {
+            UniversalRenderPipelineAsset asset = (UniversalRenderPipelineAsset) GraphicsSettings.renderPipelineAsset;
+            while (asset.renderScale < 1.0f)
+            {
+                SetRenderScale(asset.renderScale += 0.05f);
+                yield return new WaitForSeconds (0.1f);
+            }
+            yield return null;
+        }
+
+    void SetRenderScale(float scale) {
+        UniversalRenderPipelineAsset asset = (UniversalRenderPipelineAsset) GraphicsSettings.renderPipelineAsset;
+        asset.renderScale = scale;
+        GraphicsSettings.renderPipelineAsset = asset;
     }
 
     Vector3 getRandomDelta(bool requiresSpace) {

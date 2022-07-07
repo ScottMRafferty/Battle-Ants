@@ -118,9 +118,10 @@ public class Ant : MonoBehaviour
             }
 
             if (health < 1) {
-                if (food > 0) {
-                    GameObject foodDrop = Instantiate(World.instance.food,transform.position, Quaternion.identity, nest.gameObject.transform.parent.transform);
-                    foodDrop.GetComponent<Food>().qty = food;
+                if (food > 0 && enemyAnt && enemyAnt.food == 0) {
+                    enemyAnt.food = food;
+                    //GameObject foodDrop = Instantiate(World.instance.food,transform.position, Quaternion.identity, nest.gameObject.transform.parent.transform);
+                    //foodDrop.GetComponent<Food>().qty = food;
                 }
                 nest.DestroyAnt(gameObject);
             }
@@ -168,8 +169,10 @@ public class Ant : MonoBehaviour
 
             } else if (colGameObject.name == "Food(Clone)" && food < carryingCapacity) {
                 food += colGameObject.GetComponent<Food>().TakeFood(carryingCapacity-food);
-                this.GetComponent<SpriteRenderer>().sprite = antWithFood;
-                creature.SetTarget(nest.gameObject,false);
+                if (food > 0) {
+                    this.GetComponent<SpriteRenderer>().sprite = antWithFood;
+                    creature.SetTarget(nest.gameObject,false);
+                }
             }
         }
     }
