@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FaderM
+  m_Name: Tree
   m_Shader: {fileID: -6465566751694194690, guid: fe57f957d9d35435e9b77fbadbb28230, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -39,5 +39,6 @@ Material:
     m_Ints: []
     m_Floats:
     - _Fade: 0
+    - _Strength: 0.378
     m_Colors: []
   m_BuildTextureStacks: []
