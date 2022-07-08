@@ -15,7 +15,7 @@ public class Food : MonoBehaviour
     void Start() {
         float r = Random.Range(0.03f, 0.10f);
         qty = qtyMax = (int) Mathf.Ceil(10 * (r * 100));
-        Debug.Log("Qty: " + qty + ", Qty Max: " + qtyMax + ", r: " + r);
+        //Debug.Log("Qty: " + qty + ", Qty Max: " + qtyMax + ", r: " + r);
         transform.localScale = new Vector2(r,r);
         transform.rotation = new Quaternion(0,0,Random.Range(-1.0f, 1.0f),1.0f);
         material = GetComponent<Renderer>().material;
@@ -34,7 +34,6 @@ public class Food : MonoBehaviour
             requestedAmount = qty;
         qty -= requestedAmount;
         float fade = 1.0f - ((float) qty/qtyMax);
-        Debug.Log("Fade: " + fade);
         material.SetFloat("_Fade", fade);
         materialShadow.SetFloat("_Fade", fade);
         return requestedAmount;

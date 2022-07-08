@@ -16,6 +16,7 @@ public class World : MonoBehaviour
     public Sprite background;
     public GameObject nest;
     public GameObject food;
+    public Color[] teams = new Color[2] {new Color(1f,0f,0f,1f),new Color(0f,.5f,0f,1f)};
 
     [Header("Options")]
     public int foodQty = 18;
@@ -38,10 +39,6 @@ public class World : MonoBehaviour
                 Destroy(this.gameObject);
         }
 
-        LeanTween.init( 800 );
-
-        Color[] colors = new Color[3] {new Color(1f,0f,0f,1f),new Color(0f,.5f,0f,1f),new Color(0f,0f,1f,1f)};
-
         // Food
         for (int x=0; x<foodQty; x++) {
             Instantiate(food,Camera.main.ViewportToWorldPoint(getRandomDelta(false)), Quaternion.identity, transform);
@@ -50,7 +47,7 @@ public class World : MonoBehaviour
         // Nests (teams)
         for (int x=0; x<nestQty; x++) {
             GameObject o = Instantiate(nest,Camera.main.ViewportToWorldPoint(getRandomDelta(true)), Quaternion.identity, transform);
-            o.GetComponent<Nest>().color = colors[x];
+            o.GetComponent<Nest>().color = teams[x];
             o.GetComponent<Nest>().greenfootAnts = (x < 1);
         }
 

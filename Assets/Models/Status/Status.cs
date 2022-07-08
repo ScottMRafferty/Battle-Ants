@@ -15,20 +15,22 @@ public class Status : MonoBehaviour
     {
         if (statusType == STATUS_TYPES.HEALTH) {
             GameObject health = transform.GetChild(0).gameObject;
-            float result = amount * 0.01f;
-            health.transform.localScale = new Vector2(result,0.01f);   
+            float result = amount * 0.13f;
+            health.transform.localScale = new Vector2(result,result);   
             health.GetComponent<SpriteRenderer>().color = color;
 
         }  
     }
 
+    /*
     void Update() {
         if (parent.transform.hasChanged == true) {
-            transform.rotation = Quaternion.Euler(0,0,0);
-            transform.position = new Vector2(parent.transform.position.x, parent.transform.position.y+.1f);
-            transform.hasChanged = false;
+            //transform.rotation = Quaternion.Euler(0,0,0);
+            //transform.position = new Vector2(parent.transform.position.x, parent.transform.position.y);
+            //transform.hasChanged = false;
         }
     }
+    */
 
 
 }
