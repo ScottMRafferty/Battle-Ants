@@ -14,6 +14,7 @@ public class World : MonoBehaviour
 
     [Header("Setup")]
     public Sprite background;
+    public Light2D godRays;
     public GameObject nest;
     public GameObject food;
     public Color[] teams = new Color[2] {new Color(1f,0f,0f,1f),new Color(0f,.5f,0f,1f)};
@@ -26,7 +27,7 @@ public class World : MonoBehaviour
 
     private List<Vector3> coords = new List<Vector3>();
     public static World instance;
-    
+    private bool incLight = true;
 
     void Start()
     {
@@ -104,6 +105,27 @@ public class World : MonoBehaviour
 
     public void SetShowAntHealth(bool value) {
         showAntHealth = value;
+    }
+
+    void LateUpdate() {
+
+        // Small dynamic adjustments to scene lighting
+        // This is quick and nasty and there are much better ways to do this.
+
+        // Pulse the light between an upper and lower bound with random step adjustments
+        if (incLight == true) {
+            godRays.intensity += Random.value * Time.deltaTime;
+            incLight = godRays.intensity < 5.3f;
+        } else {
+            godRays.intensity -= Random.value * Time.deltaTime;
+            incLight = godRays.intensity < 2.7f;
+        }
+
+        // Randomly flip the pulse direction occasionally (1% chance) to mitigate the pulsing effect
+        if (Random.value > 0.99f)
+            incLight = !incLight;
+        
+
     }
 
 }

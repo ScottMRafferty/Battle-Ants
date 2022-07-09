@@ -19,7 +19,13 @@ public class Food : MonoBehaviour
         transform.localScale = new Vector2(r,r);
         transform.rotation = new Quaternion(0,0,Random.Range(-1.0f, 1.0f),1.0f);
         material = GetComponent<Renderer>().material;
-        materialShadow =  transform.GetChild(0).GetComponent<Renderer>().material;
+        GameObject shadow = transform.GetChild(0).gameObject;
+        materialShadow =  shadow.GetComponent<Renderer>().material;
+
+        // Skew and position shadow (relative to parent rotation)
+        shadow.transform.position = new Vector2(transform.position.x + 0.4f, transform.position.y - 0.4f);
+        shadow.transform.localScale = new Vector2(shadow.transform.localScale.x, 1.4f);
+        
     }
 
     public int takeFood(int attemptingToTake) {
