@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1610852447301731731}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,7 +100,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   pheromone: {fileID: 3925443151819559457, guid: 7b8d29ad9334147de8f77781ac0eacb4, type: 3}
   decal: {fileID: 1058845529958369606, guid: 59784d952ad7f4f378a993e06f0873ab, type: 3}
   status: {fileID: 3941783714472958785, guid: 9e5cda30980c146a0aae29641760e213, type: 3}
+  updateInterval: 1
   showUnitStatus: 1
   carryingCapacity: 2
   health: 5
@@ -143,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 3
-  updateIntervalModifier: 1
+  updateInterval: 1
   variability: 0.8
 --- !u!70 &-3253186802556354795
 CapsuleCollider2D:
@@ -158,6 +159,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.005025242, y: 0.00011151159}
-  m_Size: {x: 0.06994985, y: 0.020368794}
+  m_Offset: {x: -0.008265202, y: 0.00011148776}
+  m_Size: {x: 0.11438487, y: 0.044437755}
   m_Direction: 1

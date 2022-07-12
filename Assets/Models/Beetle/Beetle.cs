@@ -12,7 +12,7 @@ public class Beetle : MonoBehaviour
     void Start()
     {
         creature = gameObject.GetComponent<CreatureEnhanced>();
-        transform.localScale = new Vector3(100.0f / Screen.width / transform.localScale.x, 100.0f / Screen.width / transform.localScale.y, 1f);
+        //transform.localScale = new Vector3((transform.localScale.x / Screen.width) * 800, (transform.localScale.y / Screen.width) * 800, 1f);
     }
 
     void Update()

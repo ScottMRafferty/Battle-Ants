@@ -11,16 +11,17 @@ public class CreatureEnhanced : MonoBehaviour
   
     [Header("Configuration")]
     public float minSpeed = 0.0f;
-    public float maxSpeed = 0.2f;
-    public float turnSpeed = 0.2f;
-    public float variability = 0.7f;
-    public float updateIntervalModifier = 1.0f;
+    public float maxSpeed = 2.0f;
+    public float maxTurnAngle = 45.0f;
+    public float turnSpeed = 1.0f;
+    public float variability = 0.8f;
+    public float updateInterval = 1.0f;
 
     private Rigidbody2D body;
     private float deltaForce = 0;
-    private float deltaRotation = 0;                     
+    private float deltaRotation = 0;                   
     private float elapsedTime = 0;
-    private Quaternion targetRotation;
+    private float actualUpdateInterval = 1.0f;
     private GameObject target;
     private bool moveAwayFromTarget = true; 
 
@@ -35,8 +36,9 @@ public class CreatureEnhanced : MonoBehaviour
 
     public void RandomWalk() {
         if (Random.value < variability) {
-            deltaRotation = Random.Range(0,359);
             deltaForce = Mathf.Clamp(deltaForce + Random.Range(-maxSpeed,maxSpeed),minSpeed, maxSpeed);
+            float deltaAngle = maxTurnAngle / Mathf.Clamp(deltaForce,1.0f,maxSpeed);
+            deltaRotation = Mathf.Clamp(deltaRotation + Random.Range(-deltaAngle, +deltaAngle), -180, 180);
         }
         Walk();
     }
@@ -46,8 +48,11 @@ public class CreatureEnhanced : MonoBehaviour
             RandomWalk();
         } else {
             HeadRoughlyTowards(target.transform.position);
-            if (moveAwayFromTarget)
-                deltaRotation = (180 + deltaRotation) % 180;
+            if (moveAwayFromTarget) {
+                deltaRotation = 180 - Quaternion.Inverse(Quaternion.Euler(0,0,deltaRotation)).eulerAngles.z;
+                Debug.DrawLine(target.transform.position, transform.position, Color.white, 0.1f);
+            } else
+                Debug.DrawLine(target.transform.position, transform.position, Color.green, 0.1f);
             Walk();
         }
     }
@@ -56,14 +61,8 @@ public class CreatureEnhanced : MonoBehaviour
 
         Vector3 normalizedCoords = (targetCoords - transform.position);
         deltaRotation = 180 * Mathf.Atan2(normalizedCoords.y, normalizedCoords.x) / Mathf.PI;
-        //Debug.Log("Heading relative to target using deltaRotation " + deltaRotation);
+        deltaForce = Mathf.Clamp(deltaForce + Random.Range(-maxSpeed,maxSpeed),minSpeed, maxSpeed);
 
-        //float distanceX = Mathf.Abs(transform.position.x - target.transform.position.x);
-        //float distanceY = Mathf.Abs(transform.position.y - target.transform.position.y);
-
-        //if (distanceX < .2 || distanceY < .2) 
-        //    deltaForce = maxSpeed / 4;
-        deltaForce = Mathf.Clamp(deltaForce + Random.Range(-maxSpeed/2,maxSpeed),minSpeed, maxSpeed);
     }
 
     public bool IsAtEdge(Vector3 coords) {
@@ -72,34 +71,34 @@ public class CreatureEnhanced : MonoBehaviour
 
     void Walk() {
 
-        
-        float dF = deltaForce / World.instance.simulationSpeed;
-        float tF = World.instance.simulationSpeed * dF * turnSpeed;
+        float dF = deltaForce / actualUpdateInterval;
 
         Vector3 coords = Camera.main.WorldToViewportPoint(transform.position);
-        
         if (IsAtEdge(coords)) {
             target = (moveAwayFromTarget == true) ? null : target;
             HeadRoughlyTowards(Vector3.zero);
-            //tF = World.instance.simulationSpeed * (deltaForce * 50.0f); // Fast
-        } else if (target != null) {
-            tF = tF * 10.0f; // Fast
         }
-
-        targetRotation = Quaternion.Euler(0,0,deltaRotation);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, tF);
 
         body.velocity = Vector3.zero;
         body.AddForce(transform.right * dF); 
 
-        //Debug.Log("Walk -> deltaRotation: " + deltaRotation + ", deltaForce: " + deltaForce + ", coords: " + coords.ToString());
+        Quaternion targetRotation = Quaternion.Euler(0,0,deltaRotation);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, turnSpeed);
 
     }
 
     void Update()
     {
+
+        // Remove refs to World.instance.simulationSpeed for independent use
+        if (World.instance.simulationSpeed == 0) {
+            body.velocity = Vector3.zero;
+            return;
+        }
+
         elapsedTime += Time.deltaTime;
-        if (elapsedTime >= World.instance.simulationSpeed * updateIntervalModifier) {
+        actualUpdateInterval = updateInterval / World.instance.simulationSpeed;
+        if (elapsedTime >= actualUpdateInterval) {
             elapsedTime = 0;
             if (target) {
                 WalkRelativeToTarget();
@@ -118,8 +117,6 @@ public class CreatureEnhanced : MonoBehaviour
                 target = null;
             }
         }
-       
-
     }
 
     void OnCollisionEnter2D(Collision2D collision) => OnTriggerEnter2D(collision.collider);

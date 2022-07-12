@@ -20,9 +20,8 @@ public class World : MonoBehaviour
     public Color[] teams = new Color[2] {new Color(1f,0f,0f,1f),new Color(0f,.5f,0f,1f)};
 
     [Header("Options")]
-    public int foodQty = 18;
-    public int nestQty = 3;
-    public float simulationSpeed = 0.04f;
+    public int foodQty = 5;
+    public float simulationSpeed = 16.0f;
     public bool showAntHealth = false;
 
     private List<Vector3> coords = new List<Vector3>();
@@ -40,17 +39,22 @@ public class World : MonoBehaviour
                 Destroy(this.gameObject);
         }
 
+        // Scale the world for resolution rather than camera size
+        transform.localScale = new Vector3((transform.localScale.x / Screen.width) * 800, (transform.localScale.y / Screen.width) * 800, 1f);
+
         // Food
         for (int x=0; x<foodQty; x++) {
             Instantiate(food,Camera.main.ViewportToWorldPoint(getRandomDelta(false)), Quaternion.identity, transform);
         }
 
         // Nests (teams)
-        for (int x=0; x<nestQty; x++) {
+        for (int x=0; x<2; x++) {
             GameObject o = Instantiate(nest,Camera.main.ViewportToWorldPoint(getRandomDelta(true)), Quaternion.identity, transform);
             o.GetComponent<Nest>().color = teams[x];
             o.GetComponent<Nest>().greenfootAnts = (x < 1);
         }
+
+        
 
         SetRenderScale(0.1f);
         StartCoroutine(DoFadeIn());       
@@ -100,7 +104,7 @@ public class World : MonoBehaviour
     }
 
     public void SetSimulationSpeed(float value) {
-        simulationSpeed = 0.2f - value;
+        simulationSpeed = value * value;
     }
 
     public void SetShowAntHealth(bool value) {

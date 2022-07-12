@@ -34,7 +34,7 @@ public class Nest : MonoBehaviour
         transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = color;
 
         // Adjust the scale of the nest so (roughly) the same size regardless of screen res.
-        transform.localScale = new Vector3((transform.localScale.x / Screen.width) * 800, (transform.localScale.y / Screen.width) * 800, 1f);
+        //transform.localScale = new Vector3((transform.localScale.x / Screen.width) * 800, (transform.localScale.y / Screen.width) * 800, 1f);
 
     }
 

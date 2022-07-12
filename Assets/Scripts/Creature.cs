@@ -17,9 +17,7 @@ using UnityEngine;
     Attach this to a 2D sprite.
     
     NOTE: 
-    Trying to re-create the original movement as faithfully as possible
-    with this script but you scan switch on the useRigidBody option which
-    will use any attached RigidBody2D for the movement and rotation (if one exists).
+    Trying to re-create the original movement as faithfully as possible.
     Not using any Lerp or smooth movements in this script.
 
 */
@@ -29,7 +27,7 @@ public class Creature : MonoBehaviour
   
     [Header("Configuration")]
     public int maxSpeed = 3;                        // Pixels to be moved each iteration
-    public float updateIntervalModifier = 1.0f;     // Modifier for world speed
+    public float updateInterval = 1.0f;             // Default update interval for creature
     public float variability = 0.7f;                // Hardcoded in Greenfoot
 
     private int deltaX = 0;                     
@@ -130,8 +128,13 @@ public class Creature : MonoBehaviour
 
     void Update()
     {
+
+        // Remove refs to World.instance.simulationSpeed for independent use
+        if (World.instance.simulationSpeed == 0)
+            return;
+        
         elapsedTime += Time.deltaTime;
-        if (elapsedTime >= World.instance.simulationSpeed * updateIntervalModifier) {
+        if (elapsedTime >= updateInterval / World.instance.simulationSpeed) {
             elapsedTime = 0;
             if (target) {
                 WalkRelativeToTarget();
@@ -155,43 +158,4 @@ public class Creature : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision) => OnTriggerEnter2D(collision.collider);
     
-    /*
-    Vector3 GetBezierPosition(Vector3 startCoords, Vector3 endCoords, float t)
-    {
-        Vector3 p0 = startCoords;
-        Vector3 p1 = p0+new Vector3(0, 0, 1);
-        Vector3 p3 = endCoords;
-        Vector3 p2 = p3-new Vector3(0, 0, -1);
-
-        Vector3 result = Mathf.Pow(1f-t,3f)*p0+3f*Mathf.Pow(1f-t,2f)*t*p1+3f*(1f-t)*Mathf.Pow(t,2f)*p2+Mathf.Pow(t,3f)*p3;
-        result.z = 0.0f;
-        return result;
-    }
-
-    public Vector3[] GenerateTurningPoints(int num, Vector3 point, Vector3 targetCoords, float radius, float startAngle) {
-
-        List<Vector3> vList = new List<Vector3>();
-
-        for (int i=0;i<num;i++) {
-
-            float radians = .25f * (Mathf.PI / num * i);
-            
-            //Debug.Log("Radians: " + radians + ", Start Angle: " + startAngle);
-
-            float vertical = Mathf.Sin(radians + startAngle);
-            float horizontal = Mathf.Cos(radians + startAngle);
-
-            Vector3 v = new Vector3(horizontal, vertical, 0);
-
-            vList.Add(point + v * radius);
-
-        }
-        vList.Add(targetCoords);
-        return vList.ToArray();
-        
-
-    }
-    */
-
-
 }

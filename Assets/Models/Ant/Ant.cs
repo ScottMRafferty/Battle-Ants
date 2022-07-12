@@ -37,6 +37,7 @@ public class Ant : MonoBehaviour
     public GameObject pheromone;
     public GameObject decal;
     public Status status;
+    public float updateInterval = 1.0f;
     public bool showUnitStatus = false;
     public int carryingCapacity = 2;
     public int health = 5;
@@ -46,27 +47,25 @@ public class Ant : MonoBehaviour
 
     private Ant enemyAnt;
     private int MAX_PH_LEVEL = 18;
-    private int PH_TIME = 30;
     private int pheromoneLevel = 18;
-    private int foundLastPheromone = 0;
+    private GameObject lastPheromone;   // replacing PH_TIME and foundLastPheromone (decays to null relative to world time)
     
     public Nest nest;
     private CreatureWrapper creature;
-    private float second = 1.0f;
     private GameObject leaf;
+
 
     void Start()
     {
-
-        second = 1.0f / World.instance.simulationSpeed;
 
         if (showUnitStatus)
             status = Instantiate(status,transform.position, Quaternion.identity, transform);
 
         creature = new CreatureWrapper(GetComponent<Creature>(), GetComponent<CreatureEnhanced>());       
-        LeanTween.delayedCall(gameObject, Random.Range(0.0f,2.0f) * second, ()=>{
-            gameObject.SetActive(true);
+        LeanTween.delayedCall(gameObject, Random.Range(1.0f,20.0f), ()=>{
             status.UpdateMetric(STATUS_TYPES.HEALTH, nest.color, health);
+            status.gameObject.SetActive(false);
+            gameObject.SetActive(true);
         });
         gameObject.SetActive(false);
         leaf = transform.GetChild(0).gameObject;
@@ -90,9 +89,8 @@ public class Ant : MonoBehaviour
     }
 
     private void SearchForFood()
-    {
-        if (foundLastPheromone > 0) { // if we can still remember...
-            foundLastPheromone--;
+    {   
+        if (lastPheromone) {
             creature.SetTarget(nest.gameObject,true);
         } else {
             creature.SetTarget(null,true);
@@ -103,7 +101,7 @@ public class Ant : MonoBehaviour
     {
         elapsedTime += Time.deltaTime;
 
-        if (elapsedTime >= World.instance.simulationSpeed) {
+        if (elapsedTime >= updateInterval / World.instance.simulationSpeed) {
 
             elapsedTime = 0;
 
@@ -152,17 +150,19 @@ public class Ant : MonoBehaviour
                     if (food > 0) {
                         food -= nestInProximity.DropFood(food);
                         this.GetComponent<SpriteRenderer>().sprite = ant;
-                        creature.SetTarget(nest.gameObject,true);
-                        LeanTween.delayedCall(gameObject, Random.Range(0.0f,2.0f) * second, ()=>gameObject.SetActive(true));
+                        lastPheromone = null;
+                        LeanTween.delayedCall(gameObject, Random.Range(0.0f,3.0f), ()=>gameObject.SetActive(true));
                         gameObject.SetActive(false);
                     }
                 } else {
                     // Enemy nest -  only take what we can carry and then head to home nest
                     if (carryingCapacity > food) {
                         food += nestInProximity.TakeFood(carryingCapacity - food);
-                        this.GetComponent<SpriteRenderer>().sprite = antWithFood;
-                        creature.SetTarget(nest.gameObject,false);
-                        LeanTween.delayedCall(gameObject, Random.Range(0.0f,2.0f) * second, ()=>gameObject.SetActive(true));
+                        if (food > 0) {
+                            this.GetComponent<SpriteRenderer>().sprite = antWithFood;
+                            creature.SetTarget(nest.gameObject,false);
+                        }
+                        LeanTween.delayedCall(gameObject, Random.Range(0.0f,3.0f), ()=>gameObject.SetActive(true));
                         gameObject.SetActive(false);
                     }
                 } 
@@ -198,13 +198,15 @@ public class Ant : MonoBehaviour
 
         GameObject colGameObject = collision.gameObject;
 
-        if (colGameObject.name == "Pheromone(Clone)") {
+        if (colGameObject.name == "Pheromone(Clone)" && lastPheromone == null) {
             float distanceX = Mathf.Abs(colGameObject.transform.position.x - transform.position.x);
             float distanceY = Mathf.Abs(colGameObject.transform.position.y - transform.position.y);
-            if (distanceX < 0.05f && distanceY < 0.05f) {
-                foundLastPheromone = PH_TIME;
-            } else if (food < 1) 
+            //Debug.Log("DistanceX: " + distanceX + " Y: " + distanceY);
+            if (distanceX < 0.01f && distanceY < 0.01f) {
+                lastPheromone = colGameObject;
+            } else if (food < 1) {
                 creature.HeadRoughlyTowards(colGameObject);
+            }
             
         }
     }
